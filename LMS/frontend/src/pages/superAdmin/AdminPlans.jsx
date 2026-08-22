@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import {
   FaPlus,
@@ -23,7 +23,6 @@ const PlanModal = ({ isOpen, onClose, plan }) => {
 
   const { register, handleSubmit, reset } = useForm({
     values: {
-      id: plan?.id ?? "",
       name: plan?.name ?? "",
       price: plan?.price ?? "",
       duration_months: plan?.duration_months ?? "",
@@ -34,7 +33,6 @@ const PlanModal = ({ isOpen, onClose, plan }) => {
 
   const onSubmit = (data) => {
     const payload = {
-      id: data.id,
       name: data.name,
       price: Number(data.price),
       duration_months: Number(data.duration_months),
@@ -49,7 +47,7 @@ const PlanModal = ({ isOpen, onClose, plan }) => {
 
     if (isEditing) {
       updateMutation.mutate(
-        { id: plan.id, updates: payload },
+        { id: plan._id, updates: payload },
         {
           onSuccess: () => {
             reset();
@@ -79,21 +77,6 @@ const PlanModal = ({ isOpen, onClose, plan }) => {
         onSubmit={handleSubmit(onSubmit)}
         className="d-flex flex-column gap-3"
       >
-        <div>
-          <label
-            className="form-label fw-semibold"
-            style={{ color: "var(--color-grey-700)" }}
-          >
-            Plan ID
-          </label>
-          <input
-            type="text"
-            className="form-control"
-            style={inputStyle}
-            disabled={isEditing}
-            {...register("id", { required: true })}
-          />
-        </div>
         <div>
           <label
             className="form-label fw-semibold"
@@ -200,8 +183,8 @@ const AdminPlans = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editTarget, setEditTarget] = useState(null);
 
-  const plans = data?.data || [];
-  const totalCount = data?.count || 0;
+  const plans = data?.plans || [];
+  const totalCount = data?.total || 0;
   const totalPages = Math.ceil(totalCount / limit);
 
   const openAdd = () => {
@@ -212,6 +195,9 @@ const AdminPlans = () => {
     setEditTarget(plan);
     setIsModalOpen(true);
   };
+  const onDelete= (id)=>{
+    deleteMutation.mutate(id);
+  }
 
   if (isLoading) {
     return (
@@ -389,7 +375,7 @@ const AdminPlans = () => {
           <tbody>
             {plans.map((plan) => (
               <tr
-                key={plan.id}
+                key={plan._id}
                 style={{
                   borderTop: "1px solid var(--color-grey-200)",
                   backgroundColor: "var(--color-grey-0)",
@@ -466,7 +452,7 @@ const AdminPlans = () => {
                     <FaPen />
                   </button>
                   <button
-                    onClick={() => deleteMutation.mutate(plan.id)}
+                    onClick={() => onDelete(plan._id)}
                     className="btn btn-sm"
                     style={{
                       border: "1px solid var(--color-grey-300)",

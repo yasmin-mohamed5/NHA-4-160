@@ -1,60 +1,83 @@
-import { supabase } from "../config/supabase";
+// import { supabase } from "../config/supabase";
+
+const API_URL = "http://localhost:3000/api/admin/plans";
 
 export const getPaginatedPlans = async (page, limit) => {
-  const from = (page - 1) * limit;
-  const to = from + limit - 1;
+  const response = await fetch(
+    `${API_URL}/getAllPaginated?page=${page}&limit=${limit}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+    }
+  );
 
-  const { data, count, error } = await supabase
-    .from("plans")
-    .select("*", { count: "exact" })
-    .order("price", { ascending: true })
-    .range(from, to);
+  if (!response.ok) {
+    throw new Error("Failed to fetch plans");
+  }
 
-  if (error) throw error;
-  return { data, count };
+  return await response.json();
 };
 
 export const createPlan = async (planData) => {
-  const { data, error } = await supabase
-    .from("plans")
-    .insert([planData])
-    .select()
-    .single();
+  const response = await fetch(`${API_URL}/create`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    credentials: "include",
+    body: JSON.stringify(planData),
+  });
 
-  if (error) throw error;
-  return data;
+  if (!response.ok) {
+    throw new Error("Failed to create plan");
+  }
+
+  return await response.json();
 };
 
-export const updatePlan = async (planId, updates) => {
-  const { data, error } = await supabase
-    .from("plans")
-    .update(updates)
-    .eq("id", planId)
-    .select()
-    .single();
+export const updatePlan = async (
+  planId,
+  updates
+) => {
 
-  if (error) throw error;
-  return data;
+  const response = await fetch(
+    `${API_URL}/update/${planId}`,
+    {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify(updates),
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error("Failed to update plan");
+  }
+
+  return await response.json();
 };
 
 export const deletePlan = async (planId) => {
-  const { error } = await supabase.from("plans").delete().eq("id", planId);
-  if (error) throw error;
-  return true;
-};
 
-export const getPaginatedTenants = async (page, limit) => {
-  const from = (page - 1) * limit;
-  const to = from + limit - 1;
+  const response = await fetch(
+    `${API_URL}/delete/${planId}`,
+    {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+    }
+  );
 
-  const { data, count, error } = await supabase
-    .from("tenants")
-    .select("*, plans(name), users!admin_uid(name, email)", { count: "exact" })
-    .order("created_at", { ascending: false })
-    .range(from, to);
-
-  if (error) throw error;
-  return { data, count };
+  if (!response.ok) {
+    throw new Error("Failed to delete plan");
+  }
 };
 
 export const deleteTenant = async (tenantId) => {

@@ -9,12 +9,15 @@ export const useLogin = () => {
   const { mutate: login, isPending } = useMutation({
     mutationFn: ({ email, password }) => loginUser(email, password),
     onSuccess: (userData) => {
-      if (userData.role === "super-admin") {
+      const user = userData.user;
+      console.log("User data after login:", user);
+      console.log("User role:", user.role);
+      if (user.role === "super-admin") {
         navigate("/super-admin");
-      } else if (userData.role === "admin") {
+      } else if (user.role === "admin") {
         navigate("/dashboard");
-      } else if (userData.role === "student") {
-        navigate(`/${userData.tenant_id}`);
+      } else if (user.role === "student") {
+        navigate(`/${user.tenant_id}`);
       } else {
         toast.error("Role not recognized!");
       }

@@ -1,43 +1,94 @@
-import { supabase } from "../config/supabase";
+// import { supabase } from "../config/supabase";
+
+const API_URL = "http://localhost:3000/api/auth";
 
 export const loginUser = async (email, password) => {
-  const { data, error } = await supabase.auth.signInWithPassword({
-    email,
-    password,
+  const response = await fetch(`${API_URL}/login`, {
+    method: "POST",
+
+    headers: {
+      "Content-Type": "application/json",
+    },
+
+    credentials: "include",
+
+    body: JSON.stringify({
+      email,
+      password,
+    }),
   });
 
-  if (error) throw error;
+  const data = await response.json();
 
-  const { data: userData, error: userError } = await supabase
-    .from("users")
-    .select("*")
-    .eq("id", data.user.id)
-    .single();
+  if (!response.ok) {
+    throw new Error(data.message || "Login failed");
+  }
 
-  if (userError) throw userError;
-  return userData;
+  return data;
 };
 
 export const getCurrentUser = async () => {
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) throw new Error("No user found");
+  const response = await fetch(`${API_URL}/profile`, {
+    method: "GET",
 
-  const { data, error } = await supabase
-    .from("users")
-    .select("*, tenants!users_tenant_id_fkey(academy_name)")
-    .eq("id", user.id)
-    .single();
+    credentials: "include",
+  });
 
-  if (error) throw error;
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.message || "Failed to get current user");
+  }
+
+  return data.user;
+};
+
+export const logoutUser = async () => {
+  const response = await fetch(`${API_URL}/logout`, {
+    method: "POST",
+
+    credentials: "include",
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.message || "Logout failed");
+  }
+
   return data;
 };
-export const logoutUser = async () => {
-  const { error } = await supabase.auth.signOut();
-  if (error) throw error;
-};
 
+// export const registerTeacher = async (formData: {
+//   name: string;
+//   email: string;
+//   password: string;
+//   phone: string;
+//   age: number;
+//   role: string;
+//   academyName: string;
+//   planId: string;
+// }) => {
+//   const response = await fetch(`${API_URL}/register/teacher`, {
+//     method: "POST",
+
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+
+//     credentials: "include",
+
+//     body: JSON.stringify(formData),
+//   });
+
+//   const data = await response.json();
+
+//   if (!response.ok) {
+//     throw new Error(data.message || "Teacher registration failed");
+//   }
+
+//   return data;
+// };
 export const registerTeacher = async (formData) => {
   const { name, email, password, phone, academyName, planId } = formData;
 

@@ -5,13 +5,13 @@ import {
   createPlan,
   updatePlan,
   deletePlan,
-  getPaginatedTenants,
   deleteTenant,
   getPaginatedUsers,
   deleteUser,
   getSystemStats,
 } from "../services/superAdminService";
 
+// get paginated plans
 export const usePlansPaginated = (page, limit) => {
   return useQuery({
     queryKey: ["adminPlans", page, limit],
@@ -20,9 +20,11 @@ export const usePlansPaginated = (page, limit) => {
   });
 };
 
+// manage plans (create, update, delete)
 export const useManagePlans = () => {
   const queryClient = useQueryClient();
 
+  // create plan mutation
   const addMutation = useMutation({
     mutationFn: createPlan,
     onSuccess: () => {
@@ -32,6 +34,7 @@ export const useManagePlans = () => {
     onError: (err) => toast.error(err.message),
   });
 
+  // update plan mutation
   const updateMutation = useMutation({
     mutationFn: ({ id, updates }) => updatePlan(id, updates),
     onSuccess: () => {
@@ -41,6 +44,7 @@ export const useManagePlans = () => {
     onError: (err) => toast.error(err.message),
   });
 
+  // delete plan mutation
   const deleteMutation = useMutation({
     mutationFn: deletePlan,
     onSuccess: () => {

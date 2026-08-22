@@ -1,4 +1,4 @@
-import { supabase } from "../config/supabase";
+// import { supabase } from "../config/supabase";
 
 export const getPlans = async () => {
   const { data, error } = await supabase
