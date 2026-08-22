@@ -10,7 +10,7 @@ class teacherAuthRepository {
       name: data.name,
       phone: data.phone,
       role: data.role,
-      tenant_id: new mongoose.Types.ObjectId(data.tenant_id)
+      tenant_id: data.tenant_id
     });
 
     return user;

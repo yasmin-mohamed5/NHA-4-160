@@ -1,4 +1,4 @@
-import { supabase, secondarySupabase } from "../config/supabase";
+// import { supabase, secondarySupabase } from "../config/supabase";
 
 /**
  * Returns every student (role = "student") that belongs to a given

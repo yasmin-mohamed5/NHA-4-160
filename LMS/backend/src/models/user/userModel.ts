@@ -12,7 +12,7 @@ export interface IUser extends Document {
   name: string;
   phone: string;
   role: Role.ADMIN | Role.USER | Role.SUPERADMIN;
-  tenant_id: mongoose.Types.ObjectId;
+  tenant_id: string;
   created_at: Date;
 }
 
@@ -49,9 +49,9 @@ const userSchema = new Schema<IUser>(
     },
 
     tenant_id: {
-      type: Schema.Types.ObjectId,
-      ref: "Tenant",
-      required: false
+      type: String,
+      required: true,
+      trim: true
     }
   },
   {

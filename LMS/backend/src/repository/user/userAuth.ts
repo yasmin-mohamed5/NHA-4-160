@@ -1,10 +1,11 @@
 import { User, IUser } from "../../models/user/userModel";
 import mongoose from "mongoose";
 
-class userAuthRepository {
+class userRepository {
+  
     async findById(id: string): Promise<IUser | null> {
-    return User.findById(id);
-  }
+      return User.findById(id);
+    }
 
 
   async findByEmail({email}: {email: string}): Promise<IUser | null> {
@@ -12,4 +13,4 @@ class userAuthRepository {
   }
 }
 
-export default new userAuthRepository();
+export default new userRepository();

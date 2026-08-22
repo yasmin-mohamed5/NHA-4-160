@@ -292,7 +292,7 @@ const router = express.Router();
 router.post("/create", verifyToken, planController.createPlan);
 
 // get all plans
-router.get("/getAll", verifyToken, planController.getAllPlans);
+router.get("/getAll", planController.getAllPlans);
 
 // update plan
 router.patch("/update/:id", verifyToken, planController.updatePlan);

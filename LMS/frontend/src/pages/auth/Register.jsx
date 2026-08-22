@@ -93,12 +93,12 @@ const Register = () => {
           ) : (
             <div>
               {plans?.map((plan) => {
-                const isSelected = String(selectedPlan) === String(plan.id);
+                const isSelected = String(selectedPlan) === String(plan._id);
 
                 return (
                   <label
-                    key={plan.id}
-                    htmlFor={`plan-${plan.id}`}
+                    key={plan._id}
+                    htmlFor={`plan-${plan._id}`}
                     className="position-relative d-block rounded-3 p-3 mb-3 border transition"
                     style={{
                       cursor: "pointer",
@@ -112,9 +112,9 @@ const Register = () => {
                     }}
                   >
                     <input
-                      id={`plan-${plan.id}`}
+                      id={`plan-${plan._id}`}
                       type="radio"
-                      value={plan.id}
+                      value={plan._id}
                       {...register("planId", { required: true })}
                       className="d-none"
                     />
