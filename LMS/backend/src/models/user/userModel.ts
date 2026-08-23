@@ -1,7 +1,7 @@
 import mongoose, { Document, Schema } from "mongoose";
 
 export enum Role {
-  USER = "user",
+  student = "student",
   ADMIN = "admin",
   SUPERADMIN = "super-admin"
 }
@@ -11,8 +11,8 @@ export interface IUser extends Document {
   password: string;
   name: string;
   phone: string;
-  role: Role.ADMIN | Role.USER | Role.SUPERADMIN;
-  tenant_id: string;
+  role: Role.ADMIN | Role.student | Role.SUPERADMIN;
+  tenant_id: Schema.Types.ObjectId;
   created_at: Date;
 }
 
@@ -44,12 +44,13 @@ const userSchema = new Schema<IUser>(
 
     role: {
       type: String,
-      enum: [Role.USER, Role.ADMIN, Role.SUPERADMIN],
+      enum: [Role.student, Role.ADMIN, Role.SUPERADMIN],
       default: Role.ADMIN
     },
 
     tenant_id: {
-      type: String,
+      type: Schema.Types.ObjectId,
+      ref: "academy",
       required: true,
       trim: true
     }

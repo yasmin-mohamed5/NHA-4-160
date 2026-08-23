@@ -2,7 +2,7 @@ import mongoose, { Document, Schema } from "mongoose";
 
 export interface IAcademy extends Document {
   name: string;
-  planId: string;
+  planId: Schema.Types.ObjectId;
   logo_url: string;
   status: string;
   created_at: Date;
@@ -16,7 +16,8 @@ const academySchema = new Schema<IAcademy>(
       trim: true
     },
     planId:{
-      type: String,
+      type: Schema.Types.ObjectId,
+      ref: "Plan",
       required: true,
       trim: true
     },

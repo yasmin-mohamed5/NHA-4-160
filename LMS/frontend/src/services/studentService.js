@@ -1,4 +1,4 @@
-// import { supabase, secondarySupabase } from "../config/supabase";
+const API_URL = "http://localhost:3000/api/auth";
 
 /**
  * Returns every student (role = "student") that belongs to a given
@@ -53,40 +53,28 @@ export const addStudent = async ({
   phone,
   tenantId,
 }) => {
-  const { data: authData, error: authError } =
-    await secondarySupabase.auth.signUp({
-      email,
-      password,
-    });
-
-  if (authError) throw authError;
-
-  if (!authData.user) {
-    throw new Error(
-      "Could not create the student account. Please try again.",
-    );
-  }
-
-  const { data, error } = await supabase
-    .from("users")
-    .insert([
-      {
-        id: authData.user.id,
+  const response = await fetch(
+    `${API_URL}/register/student`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
         name,
         email,
+        password,
         phone,
-        role: "student",
         tenant_id: tenantId,
-      },
-    ])
-    .select()
-    .single();
+      }),
+    }
+  );
 
-  if (error) throw error;
+  const data = await response.json();
 
-  // The secondary client isn't persisting sessions, but we clear it
-  // explicitly to make sure nothing lingers in memory.
-  await secondarySupabase.auth.signOut();
+  if (!response.ok) {
+    throw new Error(data.message || "Failed to register student");
+  }
 
   return data;
 };

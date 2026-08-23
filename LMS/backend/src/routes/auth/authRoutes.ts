@@ -29,14 +29,6 @@
  *         phone:
  *           type: string
  *           example: "01012345678"
- *         age:
- *           type: integer
- *           example: 25
- *         role:
- *           type: string
- *           enum:
- *             - admin
- *           example: admin
  *         academyName:
  *           type: string
  *           example: TechBase Academy
@@ -48,10 +40,35 @@
  *         - email
  *         - password
  *         - phone
- *         - age
- *         - role
  *         - academyName
  *         - planId
+ *
+ *     RegisterStudent:
+ *       type: object
+ *       properties:
+ *         name:
+ *           type: string
+ *           example: Mohamed Ahmed
+ *         email:
+ *           type: string
+ *           format: email
+ *           example: student@example.com
+ *         password:
+ *           type: string
+ *           format: password
+ *           example: Student@123
+ *         phone:
+ *           type: string
+ *           example: "01012345678"
+ *         tenant_id:
+ *           type: string
+ *           example: 64f123456789abcdef123456
+ *       required:
+ *         - name
+ *         - email
+ *         - password
+ *         - phone
+ *         - tenant_id
  *
  *     Login:
  *       type: object
@@ -81,13 +98,6 @@
  *           type: string
  *           format: email
  *           example: ahmed@example.com
- *         role:
- *           type: string
- *           enum:
- *             - user
- *             - admin
- *             - superadmin
- *           example: admin
  *
  * /api/auth/register/teacher:
  *   post:
@@ -104,6 +114,28 @@
  *     responses:
  *       201:
  *         description: Teacher registered successfully
+ *       400:
+ *         description: Invalid request
+ *       409:
+ *         description: Email is already registered
+ *       500:
+ *         description: Internal server error
+ *
+ * /api/auth/register/student:
+ *   post:
+ *     tags:
+ *       - Authentication
+ *     summary: Register a student
+ *     description: Creates a new student account and enrollment.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/RegisterStudent'
+ *     responses:
+ *       201:
+ *         description: Student registered successfully
  *       400:
  *         description: Invalid request
  *       409:
@@ -187,6 +219,7 @@
 
 import express from "express";
 import {registerTeacher} from "../../controllers/teacher/authController";
+import {registerStudent} from "../../controllers/student/registerStudentController"
 import { login, logout } from "../../controllers/user/loginLogout";
 import { verifyToken } from "../../middelware/verifyTocken";
 
@@ -194,6 +227,7 @@ const router = express.Router();
 
 // ===== REGISTER =====
 router.post("/register/teacher", registerTeacher);
+router.post("/register/student", registerStudent);
 
 // ===== LOGIN =====
 router.post("/login", login);

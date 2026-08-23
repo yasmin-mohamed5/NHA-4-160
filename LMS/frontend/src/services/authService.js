@@ -1,5 +1,3 @@
-// import { supabase } from "../config/supabase";
-
 const API_URL = "http://localhost:3000/api/auth";
 
 export const loginUser = async (email, password) => {
