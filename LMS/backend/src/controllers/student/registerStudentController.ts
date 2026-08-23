@@ -64,7 +64,6 @@ export const registerStudent = async (req: Request, res: Response) => {
         name: name.trim(),
         phone,
         role,
-        tenant_id: tenant_id,
         created_at: new Date(),
     };
     // 9. create user

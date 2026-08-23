@@ -51,7 +51,7 @@ const userSchema = new Schema<IUser>(
     tenant_id: {
       type: Schema.Types.ObjectId,
       ref: "academy",
-      required: true,
+      required: false,
       trim: true
     }
   },

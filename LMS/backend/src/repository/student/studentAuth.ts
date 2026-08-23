@@ -10,24 +10,10 @@ class StudentAuthRepository {
       password: data.password,
       name: data.name,
       phone: data.phone,
-      role: data.role,
-      tenant_id: data.tenant_id
+      role: data.role
     });
 
     return user;
-  }
-
-  async getAllStudentsInAcademy (data: any): Promise<IUser[]> {
-    const users = await User.find({tenant_id: data.tenant_id, role : Role.student}) ||[];
-    return users;
-  }
-
-  async getStudentNumberInAcademy (data: any): Promise<Number>{
-    const numOfUsers = await User.countDocuments({
-      tenant_id: data.tenant_id, 
-      role : Role.student
-    }) || 0;
-    return numOfUsers;
   }
 }
 
