@@ -13,19 +13,19 @@ class EnrollmentRepository {
     return record;
   }
 
-  async getAllStudentsInAcademy(data: any): Promise<IUser[]> {
+  async getAllStudentsInAcademy(tenant_id: any): Promise<IUser[]> {
         const enrollments = await Enrollment.find({
-            tenant_id: data.tenant_id
+            tenant_id: tenant_id
         }).populate("studentId");
 
         return enrollments.map(
             enrollment => enrollment.studentId as unknown as IUser
-        );
+        ) || [];
     }
 
-  async getStudentNumberInAcademy (data: any): Promise<Number>{
+  async getStudentsNumberInAcademy (tenant_id: any): Promise<Number>{
     const numOfUsers = await Enrollment.countDocuments({
-      tenant_id: data.tenant_id
+      tenant_id: tenant_id
     }) || 0;
     return numOfUsers;
   }

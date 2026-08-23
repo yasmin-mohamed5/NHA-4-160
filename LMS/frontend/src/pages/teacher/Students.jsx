@@ -227,7 +227,7 @@ const EnrollStudentModal = ({
 
 const Students = () => {
   const { data: profile } = useTeacherProfile();
-  const tenantId = profile?.tenant_id;
+  const tenantId = profile?.tenant_id._id;
 
   const {
     data: students,
@@ -533,7 +533,7 @@ const Students = () => {
             <tbody>
               {students?.map((student) => (
                 <tr
-                  key={student.id}
+                  key={student._id}
                   style={{
                     borderTop: "1px solid var(--color-grey-200)",
                     backgroundColor: "var(--color-grey-0)",

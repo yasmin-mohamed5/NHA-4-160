@@ -1,4 +1,5 @@
 // import { supabase } from "../config/supabase";
+const API_URL = "http://localhost:3000/api";
 
 export const getAcademyWithCourses = async (tenantId) => {
   const { data, error } = await supabase
@@ -16,26 +17,32 @@ export const getAcademyWithCourses = async (tenantId) => {
   return data;
 };
 
+// done in repo
 export const getAcademyDetails = async (tenantId) => {
-  const { data, error } = await supabase
-    .from("tenants")
-    .select("*")
-    .eq("id", tenantId)
-    .eq("status", "active")
-    .single();
+  const response = await fetch(
+    `${API_URL}/teacher/enrolledStydents/${tenantId}`
+  );
 
-  if (error) throw error;
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.message || "Failed to fetch academy details");
+  }
+
   return data;
 };
 
 export const getTenantById = async (tenantId) => {
-  const { data, error } = await supabase
-    .from("tenants")
-    .select("*")
-    .eq("id", tenantId)
-    .single();
+  const response = await fetch(
+    `${API_URL}/teacher/academyDetails/${tenantId}`
+  );
 
-  if (error) throw error;
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.message || "Failed to fetch academy details");
+  }
+
   return data;
 };
 
@@ -78,26 +85,23 @@ export const updateAcademySettings = async ({
 };
 
 export const getTenantStats = async (tenantId) => {
-  const [studentsRes, coursesRes] = await Promise.all([
-    supabase
-      .from("users")
-      .select("id", { count: "exact", head: true })
-      .eq("tenant_id", tenantId)
-      .eq("role", "student"),
-    supabase
-      .from("courses")
-      .select("id", { count: "exact", head: true })
-      .eq("tenant_id", tenantId),
-  ]);
+    const response = await fetch(
+        `${API_URL}/teacher/statuse/${tenantId}`,
+        {
+            method: "GET",
+            credentials: "include",
+        }
+    );
 
-  if (studentsRes.error) throw studentsRes.error;
-  if (coursesRes.error) throw coursesRes.error;
+    const data = await response.json();
 
-  return {
-    totalStudents: studentsRes.count ?? 0,
-    totalCourses: coursesRes.count ?? 0,
-  };
+    if (!response.ok) {
+        throw new Error(data.message || "Failed to fetch tenant stats");
+    }
+
+    return data;
 };
+
 export const getAcademyAdmin = async (tenantId) => {
   const { data, error } = await supabase
     .from("users")

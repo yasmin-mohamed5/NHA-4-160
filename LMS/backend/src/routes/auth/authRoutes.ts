@@ -222,6 +222,7 @@ import {registerTeacher} from "../../controllers/teacher/authController";
 import {registerStudent} from "../../controllers/student/registerStudentController"
 import { login, logout } from "../../controllers/user/loginLogout";
 import { verifyToken } from "../../middelware/verifyTocken";
+import User from "../../repository/user/userAuth";
 
 const router = express.Router();
 
@@ -237,10 +238,19 @@ router.post("/logout", logout);
 
 // ===== PROFILE =====
 router.get("/profile", verifyToken, (req, res) => {
-  res.json({
-    message: "You are authorized",
-    user: (req as any).user,
-  });
+  User.findLoggedUser((req as any).user.id)
+    .then((user) => {
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+
+      const { password: _, ...userWithoutPassword } = user.toObject();
+      return res.json({
+        message: "You are authorized",
+        user: userWithoutPassword,
+      });
+    })
+    .catch(() => res.status(500).json({ message: "Server Error" }));
 });
 
 export default router;

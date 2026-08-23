@@ -12,6 +12,15 @@ class academyRepository{
 
     return academy;
     }
+
+    async getAcademyDetails (_id: any): Promise<IAcademy>{
+        const academy = await Academy.findById(_id);
+        if (!academy) {
+            throw new Error("Academy not found");
+        }
+        return academy;
+    }
+
 }
 
 export default new academyRepository();

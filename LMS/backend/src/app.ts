@@ -76,9 +76,11 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 // Routes
 import authRoutes from './routes/auth/authRoutes';
-import adminPlans from './routes/admin/planRoutes'
+import adminPlans from './routes/admin/planRoutes';
+import academyDetails from "./routes/teacher/academyRoutes";
 app.use('/api/auth', authRoutes);
 app.use('/api/admin/plans', adminPlans);
+app.use('/api/teacher', academyDetails);
 
 // app.use('/api/users', userRoutes);
 

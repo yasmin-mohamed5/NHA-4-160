@@ -105,7 +105,7 @@ const initialsOf = (name = "") =>
 
 const Dashboard = () => {
   const { data: profile, isLoading: isProfileLoading } = useTeacherProfile();
-  const tenantId = profile?.tenant_id;
+  const tenantId = profile?.tenant_id._id;
 
   const { data: stats, isLoading: isStatsLoading } = useTeacherStats(tenantId);
   const { data: students, isLoading: isStudentsLoading } =
@@ -319,7 +319,7 @@ const Dashboard = () => {
         <p style={{ color: "var(--color-grey-500)" }}>
           Here's what's happening in{" "}
           <span style={{ color: "var(--color-brand-600)", fontWeight: 600 }}>
-            {profile?.tenants?.academy_name}
+            {profile?.tenant_id?.name}
           </span>{" "}
           today.
         </p>
@@ -329,19 +329,19 @@ const Dashboard = () => {
         <StatCard
           icon={<FaUserGraduate />}
           label="Total Students"
-          value={stats?.totalStudents ?? 0}
+          value={stats?.numOfStudentsInAcademy ?? 0}
           isLoading={isStatsLoading}
         />
         <StatCard
           icon={<FaBook />}
           label="Total Courses"
-          value={stats?.totalCourses ?? 0}
+          value={stats?.numOfCoursesInAcademy ?? 0}
           isLoading={isStatsLoading}
         />
         <StatCard
           icon={<FaBuilding />}
           label="Academy"
-          value={profile?.tenants?.academy_name ?? "-"}
+          value={profile?.tenant_id?.name ?? "-"}
           isLoading={isProfileLoading}
         />
       </div>
@@ -466,7 +466,7 @@ const Dashboard = () => {
               <div className="d-flex flex-column gap-2">
                 {recentStudents.map((student) => (
                   <div
-                    key={student.id}
+                    key={student._id}
                     className="d-flex align-items-center gap-3 p-2 rounded-3"
                     style={{ borderBottom: "1px solid var(--color-grey-100)" }}
                   >

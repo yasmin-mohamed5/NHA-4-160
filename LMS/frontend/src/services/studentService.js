@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:3000/api/auth";
+const API_URL = "http://localhost:3000/api";
 
 /**
  * Returns every student (role = "student") that belongs to a given
@@ -6,15 +6,21 @@ const API_URL = "http://localhost:3000/api/auth";
  * stats count.
  */
 export const getAcademyStudents = async (tenantId) => {
-  const { data, error } = await supabase
-    .from("users")
-    .select("*")
-    .eq("tenant_id", tenantId)
-    .eq("role", "student")
-    .order("created_at", { ascending: false });
+  const response = await fetch(
+    `${API_URL}/teacher/enrolledStydents/${tenantId}`,
+    {
+      method: "GET",
+      credentials: "include",
+    }
+  );
 
-  if (error) throw error;
-  return data;
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.message || "Failed to fetch academy students");
+  }
+
+  return data.students;
 };
 
 /**
@@ -53,13 +59,18 @@ export const addStudent = async ({
   phone,
   tenantId,
 }) => {
+  if (!tenantId) {
+    throw new Error("Your academy could not be identified. Please log in again.");
+  }
+
   const response = await fetch(
-    `${API_URL}/register/student`,
+    `${API_URL}/auth/register/student`,
     {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
+      credentials: "include",
       body: JSON.stringify({
         name,
         email,
