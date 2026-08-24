@@ -1,10 +1,10 @@
 // import { supabase } from "../config/supabase";
 
-const API_URL = "http://localhost:3000/api/admin/plans";
+const API_URL = "http://localhost:3000/api/admin";
 
 export const getPaginatedPlans = async (page, limit) => {
   const response = await fetch(
-    `${API_URL}/getAllPaginated?page=${page}&limit=${limit}`,
+    `${API_URL}/plans/getAllPaginated?page=${page}&limit=${limit}`,
     {
       method: "GET",
       headers: {
@@ -22,7 +22,7 @@ export const getPaginatedPlans = async (page, limit) => {
 };
 
 export const createPlan = async (planData) => {
-  const response = await fetch(`${API_URL}/create`, {
+  const response = await fetch(`${API_URL}/plans/create`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -44,7 +44,7 @@ export const updatePlan = async (
 ) => {
 
   const response = await fetch(
-    `${API_URL}/update/${planId}`,
+    `${API_URL}/plans/update/${planId}`,
     {
       method: "PATCH",
       headers: {
@@ -65,7 +65,7 @@ export const updatePlan = async (
 export const deletePlan = async (planId) => {
 
   const response = await fetch(
-    `${API_URL}/delete/${planId}`,
+    `${API_URL}/plans/delete/${planId}`,
     {
       method: "DELETE",
       headers: {
@@ -80,29 +80,72 @@ export const deletePlan = async (planId) => {
   }
 };
 
+export const getPaginatedTenants = async (page, limit) => {
+  const response = await fetch(
+    `${API_URL}/adminAcademyRoutes/getAllPaginated?page=${page}&limit=${limit}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch academies");
+  }
+
+  return await response.json();
+};
+
 export const deleteTenant = async (tenantId) => {
-  const { error } = await supabase.from("tenants").delete().eq("id", tenantId);
-  if (error) throw error;
+  const response = await fetch(
+    `${API_URL}/adminAcademyRoutes/delete/${tenantId}`,
+    {
+      method: "DELETE",
+      credentials: "include",
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error("Failed to delete academy");
+  }
+
   return true;
 };
 
 export const getPaginatedUsers = async (page, limit) => {
-  const from = (page - 1) * limit;
-  const to = from + limit - 1;
+  const response = await fetch(
+    `${API_URL}/adminUserRoutes/getAllPaginated?page=${page}&limit=${limit}`,
+    {
+      method: "GET",
+      credentials: "include",
+    }
+  );
 
-  const { data, count, error } = await supabase
-    .from("users")
-    .select("*, tenants!users_tenant_id_fkey(academy_name)", { count: "exact" })
-    .order("created_at", { ascending: false })
-    .range(from, to);
+  if (!response.ok) {
+    throw new Error("Failed to fetch users");
+  }
 
-  if (error) throw error;
-  return { data, count };
+  const result = await response.json();
+
+  return result;
 };
 
 export const deleteUser = async (userId) => {
-  const { error } = await supabase.from("users").delete().eq("id", userId);
-  if (error) throw error;
+  const response = await fetch(
+    `${API_URL}/adminUserRoutes/delete/${userId}`,
+    {
+      method: "DELETE",
+      credentials: "include",
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error("Failed to delete user");
+  }
+
   return true;
 };
 

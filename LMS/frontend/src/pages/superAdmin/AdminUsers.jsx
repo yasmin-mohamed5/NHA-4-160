@@ -154,7 +154,7 @@ const AdminUsers = () => {
           <tbody>
             {users.map((user) => (
               <tr
-                key={user.id}
+                key={user._id}
                 style={{
                   borderTop: "1px solid var(--color-grey-200)",
                   backgroundColor: "var(--color-grey-0)",
@@ -206,14 +206,14 @@ const AdminUsers = () => {
                     backgroundColor: "var(--color-grey-0)",
                   }}
                 >
-                  {user.tenants?.academy_name || "N/A"}
+                  {user.tenant_id?.name || "N/A"}
                 </td>
                 <td
                   className="p-3 text-end border-0"
                   style={{ backgroundColor: "var(--color-grey-0)" }}
                 >
                   <button
-                    onClick={() => deleteMutation.mutate(user.id)}
+                    onClick={() => deleteMutation.mutate(user._id)}
                     className="btn btn-sm"
                     style={{
                       border: "1px solid var(--color-grey-300)",

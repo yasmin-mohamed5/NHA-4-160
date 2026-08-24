@@ -95,13 +95,15 @@ const QuickAction = ({ to, icon, title, subtitle }) => (
   </Link>
 );
 
-const initialsOf = (name = "") =>
-  name
+const initialsOf = (name = "") =>{
+  return name
     .split(" ")
     .map((p) => p[0])
     .slice(0, 2)
     .join("")
     .toUpperCase();
+}
+  
 
 const Dashboard = () => {
   const { data: profile, isLoading: isProfileLoading } = useTeacherProfile();

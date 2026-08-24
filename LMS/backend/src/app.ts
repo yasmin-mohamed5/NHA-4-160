@@ -78,8 +78,12 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 import authRoutes from './routes/auth/authRoutes';
 import adminPlans from './routes/admin/planRoutes';
 import academyDetails from "./routes/teacher/academyRoutes";
+import adminUserRoutes from "./routes/admin/adminUserRoutes";
+import adminAcademyRoutes from "./routes/admin/adminAcademyRoutes";
 app.use('/api/auth', authRoutes);
 app.use('/api/admin/plans', adminPlans);
+app.use('/api/admin/adminUserRoutes', adminUserRoutes);
+app.use('/api/admin/adminAcademyRoutes', adminAcademyRoutes);
 app.use('/api/teacher', academyDetails);
 
 // app.use('/api/users', userRoutes);

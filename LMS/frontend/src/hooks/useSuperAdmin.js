@@ -6,6 +6,7 @@ import {
   updatePlan,
   deletePlan,
   deleteTenant,
+  getPaginatedTenants,
   getPaginatedUsers,
   deleteUser,
   getSystemStats,

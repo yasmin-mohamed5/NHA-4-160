@@ -159,7 +159,7 @@ const AdminTenants = () => {
           <tbody>
             {tenants.map((tenant) => (
               <tr
-                key={tenant.id}
+                key={tenant._id}
                 style={{
                   borderTop: "1px solid var(--color-grey-200)",
                   backgroundColor: "var(--color-grey-0)",
@@ -172,7 +172,7 @@ const AdminTenants = () => {
                     backgroundColor: "var(--color-grey-0)",
                   }}
                 >
-                  {tenant.id}
+                  {tenant._id}
                 </td>
                 <td
                   className="p-3 border-0"
@@ -181,7 +181,7 @@ const AdminTenants = () => {
                     backgroundColor: "var(--color-grey-0)",
                   }}
                 >
-                  {tenant.academy_name}
+                  {tenant.name}
                 </td>
                 <td
                   className="p-3 border-0"
@@ -190,14 +190,14 @@ const AdminTenants = () => {
                     backgroundColor: "var(--color-grey-0)",
                   }}
                 >
-                  {tenant.users?.name} <br />{" "}
+                  {tenant.admin?.name} <br />{" "}
                   <span
                     style={{
                       fontSize: "0.8rem",
                       color: "var(--color-grey-400)",
                     }}
                   >
-                    {tenant.users?.email}
+                    {tenant.admin?.email}
                   </span>
                 </td>
                 <td
@@ -214,7 +214,7 @@ const AdminTenants = () => {
                       color: "var(--color-brand-700)",
                     }}
                   >
-                    {tenant.plans?.name || "Free"}
+                    {tenant.plan?.name || "Free"}
                   </span>
                 </td>
                 <td
@@ -222,7 +222,7 @@ const AdminTenants = () => {
                   style={{ backgroundColor: "var(--color-grey-0)" }}
                 >
                   <button
-                    onClick={() => deleteMutation.mutate(tenant.id)}
+                    onClick={() => deleteMutation.mutate(tenant._id)}
                     className="btn btn-sm"
                     style={{
                       border: "1px solid var(--color-grey-300)",

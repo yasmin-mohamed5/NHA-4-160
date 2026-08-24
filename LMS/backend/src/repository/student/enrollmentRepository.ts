@@ -30,6 +30,12 @@ class EnrollmentRepository {
     return numOfUsers;
   }
 
+  async deleteMany (userId: any){
+    return Enrollment.deleteMany({
+      studentId: userId
+    });
+  }
+
 }
 
 export default new EnrollmentRepository();

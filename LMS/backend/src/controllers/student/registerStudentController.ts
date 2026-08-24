@@ -1,10 +1,9 @@
 import { Request, Response } from "express";
 import User from "../../repository/user/userAuth";
-import studentAuth from "../../repository/student/studentAuth";
 import enrollRepo from "../../repository/student/enrollmentRepository"
 import bcrypt from "bcryptjs";
-import mongoose from "mongoose";
 import {Role} from "../../models/user/userModel";
+import teacherAuth from "../../repository/teacher/teacherAuth";
 
 // ===== REGISTER =====
 export const registerStudent = async (req: Request, res: Response) => {
@@ -64,10 +63,11 @@ export const registerStudent = async (req: Request, res: Response) => {
         name: name.trim(),
         phone,
         role,
+        tenant_id: tenant_id,
         created_at: new Date(),
     };
     // 9. create user
-    const user = await studentAuth.create(newuser);
+    const user = await teacherAuth.create(newuser);
     // 10. create enrollment
 
     const newenrollment = {
