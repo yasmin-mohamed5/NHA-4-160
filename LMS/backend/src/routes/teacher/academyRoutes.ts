@@ -171,11 +171,30 @@
 import express from "express";
 import { verifyToken } from "../../middelware/verifyTocken";
 import academyDetals from "../../controllers/teacher/academyDetails"
+import {Role} from "../../models/user/userModel";
+import {authorizeRole} from "../../middelware/autherizeRole"
 
 const router = express.Router();
 
-router.get("/academyDetails/:tenantId", verifyToken, academyDetals.getAcademyDetails);
-router.get("/enrolledStydents/:tenantId", verifyToken, academyDetals.getAllstudentsInAcademy);
-router.get("/statuse/:tenantId", verifyToken, academyDetals.getTenantStats);
+router.get(
+    "/academyDetails/:tenantId", 
+    verifyToken, 
+    authorizeRole(Role.ADMIN), 
+    academyDetals.getAcademyDetails
+);
+
+router.get(
+    "/enrolledStydents/:tenantId", 
+    verifyToken, 
+    authorizeRole(Role.ADMIN), 
+    academyDetals.getAllstudentsInAcademy
+);
+
+router.get(
+    "/statuse/:tenantId", 
+    verifyToken, 
+    authorizeRole(Role.ADMIN), 
+    academyDetals.getTenantStats
+);
 
 export default router;

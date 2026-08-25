@@ -62,7 +62,7 @@ class PlanController {
         try {
         const { id } = req.params as { id: string };
             await planService.deletePlan(id);
-            res.status(204).json({ message: "Plan deleted successfully" });
+            res.status(204).send();
         } catch (error:any) {
         res.status(error.code || 500).json({ message: error.message });
         }

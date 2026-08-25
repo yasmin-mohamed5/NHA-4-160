@@ -285,22 +285,43 @@
 import express from "express";
 import planController from "../../controllers/admin/planController";
 import { verifyToken } from "../../middelware/verifyTocken";
+import {Role} from "../../models/user/userModel";
+import {authorizeRole} from "../../middelware/autherizeRole"
 
 const router = express.Router();
 
 // Create a new plan
-router.post("/create", verifyToken, planController.createPlan);
+router.post(
+    "/create", 
+    verifyToken, 
+    authorizeRole(Role.SUPERADMIN), 
+    planController.createPlan);
 
 // get all plans
 router.get("/getAll", planController.getAllPlans);
 
 // update plan
-router.patch("/update/:id", verifyToken, planController.updatePlan);
+router.patch(
+    "/update/:id", 
+    verifyToken, 
+    authorizeRole(Role.SUPERADMIN), 
+    planController.updatePlan
+);
 
 // deleteplane
-router.delete("/delete/:id", verifyToken, planController.deletePlan);
+router.delete(
+    "/delete/:id", 
+    verifyToken, 
+    authorizeRole(Role.SUPERADMIN), 
+    planController.deletePlan
+);
 
 // get paginated data
-router.get("/getAllPaginated", verifyToken, planController.getPaginatedPlans);
+router.get(
+    "/getAllPaginated", 
+    verifyToken, 
+    authorizeRole(Role.SUPERADMIN), 
+    planController.getPaginatedPlans
+);
 
 export default router;
