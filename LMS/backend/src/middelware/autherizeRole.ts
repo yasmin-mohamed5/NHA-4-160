@@ -11,7 +11,7 @@ export const authorizeRole = (allowedRole: string) => {
             });
         }
 
-        if (allowedRole == user.role) {
+        if (allowedRole !== user.role) {
             return res.status(403).json({
                 message: "You do not have permission to perform this action"
             });

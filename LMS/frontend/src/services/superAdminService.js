@@ -82,7 +82,7 @@ export const deletePlan = async (planId) => {
 
 export const getPaginatedTenants = async (page, limit) => {
   const response = await fetch(
-    `${API_URL}/adminAcademyRoutes/getAllPaginated?page=${page}&limit=${limit}`,
+    `${API_URL}/academy/getAllPaginated?page=${page}&limit=${limit}`,
     {
       method: "GET",
       headers: {
@@ -101,7 +101,7 @@ export const getPaginatedTenants = async (page, limit) => {
 
 export const deleteTenant = async (tenantId) => {
   const response = await fetch(
-    `${API_URL}/adminAcademyRoutes/delete/${tenantId}`,
+    `${API_URL}/academy/delete/${tenantId}`,
     {
       method: "DELETE",
       credentials: "include",
@@ -117,7 +117,7 @@ export const deleteTenant = async (tenantId) => {
 
 export const getPaginatedUsers = async (page, limit) => {
   const response = await fetch(
-    `${API_URL}/adminUserRoutes/getAllPaginated?page=${page}&limit=${limit}`,
+    `${API_URL}/user/getAllPaginated?page=${page}&limit=${limit}`,
     {
       method: "GET",
       credentials: "include",
@@ -135,7 +135,7 @@ export const getPaginatedUsers = async (page, limit) => {
 
 export const deleteUser = async (userId) => {
   const response = await fetch(
-    `${API_URL}/adminUserRoutes/delete/${userId}`,
+    `${API_URL}/user/delete/${userId}`,
     {
       method: "DELETE",
       credentials: "include",

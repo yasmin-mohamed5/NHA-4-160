@@ -11,7 +11,7 @@ class academyDetails{
             return res.status(400).json({ message: "academy id is required" });
         }
         try {
-            const academyDetail = academyRepository.getAcademyDetails(tenantId);
+            const academyDetail = await academyRepository.getAcademyDetails(tenantId);
             return res.status(200).json({
                 message: "academy founded",
                 academyDetail

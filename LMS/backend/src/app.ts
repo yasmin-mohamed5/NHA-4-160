@@ -82,8 +82,8 @@ import adminUserRoutes from "./routes/admin/adminUserRoutes";
 import adminAcademyRoutes from "./routes/admin/adminAcademyRoutes";
 app.use('/api/auth', authRoutes);
 app.use('/api/admin/plans', adminPlans);
-app.use('/api/admin/adminUserRoutes', adminUserRoutes);
-app.use('/api/admin/adminAcademyRoutes', adminAcademyRoutes);
+app.use('/api/admin/user', adminUserRoutes);
+app.use('/api/admin/academy', adminAcademyRoutes);
 app.use('/api/teacher', academyDetails);
 
 // app.use('/api/users', userRoutes);

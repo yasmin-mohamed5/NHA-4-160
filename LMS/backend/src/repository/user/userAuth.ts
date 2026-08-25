@@ -20,7 +20,7 @@ class userRepository {
       await User.findByIdAndDelete(userId);
 
       // Only students have enrollments
-      if (user.role === "student") {
+      if (user.role === Role.student) {
         await Enrollment.deleteMany(userId);
       }
 

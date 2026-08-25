@@ -7,7 +7,7 @@
 
 /**
  * @swagger
- * /api/admin/adminAcademyRoutes/getAllPaginated:
+ * /api/admin/academy/getAllPaginated:
  *   get:
  *     summary: Get paginated academies
  *     description: Returns a paginated list of academies. Only authenticated SUPERADMIN users can access this endpoint.
@@ -79,7 +79,7 @@
 
 /**
  * @swagger
- * /api/admin/adminAcademyRoutes/delete/{id}:
+ * /api/admin/academy/delete/{id}:
  *   delete:
  *     summary: Delete an academy
  *     description: Deletes an academy by its MongoDB ObjectId. Only authenticated SUPERADMIN users can access this endpoint.

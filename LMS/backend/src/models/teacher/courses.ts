@@ -10,7 +10,7 @@ export interface ICourse extends Document {
   description: string;
   price: number;
   status: Status;
-  tanent_id: Schema.Types.ObjectId;
+  tenant_id: Schema.Types.ObjectId;
   thumbnail_url: string;
   category: string;
   created_at: Date;
@@ -33,9 +33,9 @@ const courseSchema = new Schema<ICourse>(
       required: true,
       trim: true
     },
-    tanent_id:{
+    tenant_id:{
       type: Schema.Types.ObjectId,
-      ref: "Plan",
+      ref: "academy",
       required: true,
       trim: true
     },

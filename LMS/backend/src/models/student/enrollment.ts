@@ -1,5 +1,4 @@
 import mongoose, { Document, Schema } from "mongoose";
-import { number } from "zod";
 
 export interface IEnrollment extends Document {
     studentId: Schema.Types.ObjectId;

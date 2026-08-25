@@ -7,7 +7,7 @@
 
  /**
   * @swagger
-  * /api/admin/adminUserRoutes/getAllPaginated:
+  * /api/admin/user/getAllPaginated:
   *   get:
   *     summary: Get paginated users
   *     description: Returns a paginated list of users. Only authenticated SUPERADMIN users can access this endpoint.
@@ -57,7 +57,7 @@
 
  /**
   * @swagger
-  * /api/admin/adminUserRoutes/delete/{id}:
+  * /api/admin/user/delete/{id}:
   *   delete:
   *     summary: Delete a user
   *     description: Deletes a user by MongoDB ObjectId. Only authenticated SUPERADMIN users can access this endpoint.

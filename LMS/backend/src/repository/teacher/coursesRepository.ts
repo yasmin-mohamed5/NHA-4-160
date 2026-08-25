@@ -15,7 +15,7 @@ class CourseRepository {
 
 //   for teacher
   async getNumberOfcouresInAcademy (id: any): Promise<Number>{
-    const numOfUsers = await Course.countDocuments({tanent_id : id}) || 0;
+    const numOfUsers = await Course.countDocuments({tenant_id : id}) || 0;
     return numOfUsers;
   }
 
