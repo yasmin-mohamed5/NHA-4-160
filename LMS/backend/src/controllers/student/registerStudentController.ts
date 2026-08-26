@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import User from "../../repository/user/userAuth";
-import enrollRepo from "../../repository/student/enrollmentRepository"
 import bcrypt from "bcryptjs";
 import {Role} from "../../models/user/userModel";
 import teacherAuth from "../../repository/teacher/teacherAuth";
@@ -68,14 +67,6 @@ export const registerStudent = async (req: Request, res: Response) => {
     };
     // 9. create user
     const user = await teacherAuth.create(newuser);
-    // 10. create enrollment
-
-    const newenrollment = {
-        tenant_id: tenant_id,
-        studentId: user._id
-    }
-
-    const enroll =await enrollRepo.create(newenrollment);
 
     const { password: _, ...userWithoutPassword } = user.toObject();
 
@@ -84,7 +75,6 @@ export const registerStudent = async (req: Request, res: Response) => {
     return res.status(201).json({
       message: "Register successful",
       user: userWithoutPassword,
-      enroll: enroll,
     });
   } catch (error) {
     return res.status(500).json({ message: "Server Error" });

@@ -1,4 +1,4 @@
-import enroll from "../../repository/student/enrollmentRepository"
+import enroll from "../../repository/teacher/enrolledStudents"
 import { Request, Response } from "express";
 import {Role} from "../../models/user/userModel";
 import academyRepository from "../../repository/teacher/academy"

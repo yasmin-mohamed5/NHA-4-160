@@ -1,7 +1,6 @@
 import { User, IUser } from "../../models/user/userModel";
-import mongoose from "mongoose";
 import {Role} from "../../models/user/userModel";
-import Enrollment from "../student/enrollmentRepository";
+import CourseEnrollment from "../../repository/student/enrollmentRepository";
 
 class userRepository {
   
@@ -21,7 +20,7 @@ class userRepository {
 
       // Only students have enrollments
       if (user.role === Role.student) {
-        await Enrollment.deleteMany(userId);
+        await CourseEnrollment.deleteMany(userId);
       }
 
       return true;

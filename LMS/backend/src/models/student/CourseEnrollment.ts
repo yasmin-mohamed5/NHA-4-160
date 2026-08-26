@@ -1,13 +1,13 @@
 import mongoose, { Document, Schema } from "mongoose";
 
-export interface IEnrollment extends Document {
+export interface ICourseEnrollment extends Document {
     studentId: Schema.Types.ObjectId;
-    tenant_id: Schema.Types.ObjectId;
+    course_id: Schema.Types.ObjectId;
     progress: number;
     created_at: Date;
 }
 
-const EnrollmentSchema = new Schema<IEnrollment>(
+const CourseEnrollmentSchema = new Schema<ICourseEnrollment>(
   {
     studentId: {
       type: Schema.Types.ObjectId,
@@ -20,9 +20,9 @@ const EnrollmentSchema = new Schema<IEnrollment>(
       default: 0,
     },
 
-    tenant_id: {
+    course_id: {
       type: Schema.Types.ObjectId,
-      ref: "academy",
+      ref: "course",
       required: true,
     },
   },
@@ -34,4 +34,4 @@ const EnrollmentSchema = new Schema<IEnrollment>(
   }
 );
 
-export const Enrollment = mongoose.model<IEnrollment>("Enrollment", EnrollmentSchema);
+export const CourseEnrollment = mongoose.model<ICourseEnrollment>("CourseEnrollment", CourseEnrollmentSchema);

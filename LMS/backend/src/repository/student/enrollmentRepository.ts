@@ -1,37 +1,18 @@
-import { Enrollment, IEnrollment } from "../../models/student/enrollment";
-import mongoose from "mongoose";
-import { User, IUser } from "../../models/user/userModel";
+import { CourseEnrollment, ICourseEnrollment } from "../../models/student/CourseEnrollment";
 
 class EnrollmentRepository {
 
-  async create(data: any): Promise<IEnrollment> {
-    const record = await Enrollment.create({
+  async create(data: any): Promise<ICourseEnrollment> {
+    const record = await CourseEnrollment.create({
         studentId: data.studentId,
-        tenant_id: data.tenant_id
+        course_id: data.tenant_id
     });
 
     return record;
   }
 
-  async getAllStudentsInAcademy(tenant_id: any): Promise<IUser[]> {
-        const enrollments = await Enrollment.find({
-            tenant_id: tenant_id
-        }).populate("studentId");
-
-        return enrollments.map(
-            enrollment => enrollment.studentId as unknown as IUser
-        ) || [];
-    }
-
-  async getStudentsNumberInAcademy (tenant_id: any): Promise<Number>{
-    const numOfUsers = await Enrollment.countDocuments({
-      tenant_id: tenant_id
-    }) || 0;
-    return numOfUsers;
-  }
-
   async deleteMany (userId: any){
-    return Enrollment.deleteMany({
+    return CourseEnrollment.deleteMany({
       studentId: userId
     });
   }
