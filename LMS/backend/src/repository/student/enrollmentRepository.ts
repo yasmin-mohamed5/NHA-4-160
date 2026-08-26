@@ -5,7 +5,7 @@ class EnrollmentRepository {
   async create(data: any): Promise<ICourseEnrollment> {
     const record = await CourseEnrollment.create({
         studentId: data.studentId,
-        course_id: data.tenant_id
+        course_id: data.course_id
     });
 
     return record;
